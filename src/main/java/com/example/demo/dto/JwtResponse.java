@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+demopackage com.example.demo.dto;
 
 public class JwtResponse {
     private String token;
