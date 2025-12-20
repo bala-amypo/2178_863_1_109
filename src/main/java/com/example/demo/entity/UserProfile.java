@@ -1,36 +1,36 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
 @Entity
-@Table(
-    name = "user_profiles",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "userId"),
-        @UniqueConstraint(columnNames = "email")
-    }
-)
 public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    private String userId;
-    private String fullName;
     private String email;
     private String password;
     private String role;
-    private Boolean active;
+    private boolean active;
 
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        if (active == null) active = true;
+    public Long getUserId() {
+        return userId;
     }
 
-    // getters and setters
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
