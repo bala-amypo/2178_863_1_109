@@ -11,9 +11,17 @@ public class RewardRule {
 
     private Long cardId;
     private String category;
-    private String rewardType;
-    private Double multiplier;
-    private Boolean active;
+    private double multiplier;
 
-    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getCardId() { return cardId; }
+    public void setCardId(Long cardId) { this.cardId = cardId; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public double getMultiplier() { return multiplier; }
+    public void setMultiplier(double multiplier) { this.multiplier = multiplier; }
 }

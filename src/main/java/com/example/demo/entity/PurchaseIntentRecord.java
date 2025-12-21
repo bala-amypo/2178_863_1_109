@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class PurchaseIntentRecord {
@@ -11,16 +10,18 @@ public class PurchaseIntentRecord {
     private Long id;
 
     private Long userId;
-    private Double amount;
     private String category;
-    private String merchant;
+    private double amount;
 
-    private LocalDateTime intentDate;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    @PrePersist
-    public void prePersist() {
-        intentDate = LocalDateTime.now();
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    // getters and setters
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 }
