@@ -1,26 +1,24 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
+import com.example.demo.entity.RecommendationRecord;
+import com.example.demo.repository.RecommendationRepository;
+import com.example.demo.service.RecommendationEngineService;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.CreditCardRecord;
-import com.example.demo.repository.CreditCardRecordRepository;
-import com.example.demo.service.RecommendationEngineService;
+import java.util.List;
 
 @Service
 public class RecommendationEngineServiceImpl implements RecommendationEngineService {
 
-    private final CreditCardRecordRepository creditCardRecordRepository;
+    private final RecommendationRepository recommendationRepository;
 
-    public RecommendationEngineServiceImpl(
-            CreditCardRecordRepository creditCardRecordRepository) {
-        this.creditCardRecordRepository = creditCardRecordRepository;
+    public RecommendationEngineServiceImpl(RecommendationRepository recommendationRepository) {
+        this.recommendationRepository = recommendationRepository;
     }
 
     @Override
-    public List<CreditCardRecord> recommendCards(Long userId) {
-        // Simple logic for now
-        return creditCardRecordRepository.findAll();
+    public List<RecommendationRecord> generateRecommendations(Long userId) {
+        // Simple example: fetch all recommendations for the user
+        return recommendationRepository.findByUserId(userId);
     }
 }
