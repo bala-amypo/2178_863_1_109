@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recommendation-engine")
+@RequestMapping("/recommendations")
 public class RecommendationEngineController {
 
     private final RecommendationEngineService recommendationEngineService;
@@ -16,10 +16,7 @@ public class RecommendationEngineController {
         this.recommendationEngineService = recommendationEngineService;
     }
 
-    /**
-     * Generate recommendations for a given user
-     */
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public List<RecommendationRecord> getRecommendations(@PathVariable Long userId) {
         return recommendationEngineService.generateRecommendations(userId);
     }

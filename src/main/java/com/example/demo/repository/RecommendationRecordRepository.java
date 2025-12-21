@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RecommendationRecordRepository extends JpaRepository<RecommendationRecord, Long> {
-
-    // Fetch all recommendation records for a specific user
     List<RecommendationRecord> findByUserId(Long userId);
 }
