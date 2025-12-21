@@ -1,14 +1,26 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "user_profiles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "userId"),
+        @UniqueConstraint(columnNames = "email")
+})
 public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String userId;
+
+    @Column(nullable = false)
+    private String fullName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -17,14 +29,42 @@ public class UserProfile {
     private String password;
 
     @Column(nullable = false)
-    private boolean active;
+    private String role;
 
     @Column(nullable = false)
-    private String role;
+    private Boolean active;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        if (active == null) active = true;
+    }
+
+    // Constructors
+    public UserProfile() {
+    }
+
+    public UserProfile(String userId, String fullName, String email, String password, String role, Boolean active) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -32,9 +72,12 @@ public class UserProfile {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
-
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
