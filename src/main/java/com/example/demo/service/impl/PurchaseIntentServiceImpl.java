@@ -27,4 +27,10 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     public List<PurchaseIntentRecord> getPurchaseIntentsByUserId(Long userId) {
         return purchaseIntentRecordRepository.findByUserId(userId);
     }
+
+    // IMPLEMENT THE MISSING METHOD
+    @Override
+    public List<PurchaseIntentRecord> getAllIntents() {
+        return purchaseIntentRecordRepository.findAll();
+    }
 }
