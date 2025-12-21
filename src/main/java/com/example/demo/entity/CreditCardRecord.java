@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "credit_card_record")
+@Table(name = "credit_card_records")
 public class CreditCardRecord {
 
     @Id
@@ -11,44 +11,33 @@ public class CreditCardRecord {
     private Long id;
 
     @Column(nullable = false)
-    private String cardNumber;
+    private String cardName;
 
     @Column(nullable = false)
-    private String cardHolderName;
+    private double annualFee;
 
     @Column(nullable = false)
-    private Double balance;
+    private double rewardRate;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    // Constructors
+    public CreditCardRecord() {}
+
+    public CreditCardRecord(String cardName, double annualFee, double rewardRate) {
+        this.cardName = cardName;
+        this.annualFee = annualFee;
+        this.rewardRate = rewardRate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getCardNumber() {
-        return cardNumber;
-    }
+    public String getCardName() { return cardName; }
+    public void setCardName(String cardName) { this.cardName = cardName; }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+    public double getAnnualFee() { return annualFee; }
+    public void setAnnualFee(double annualFee) { this.annualFee = annualFee; }
 
-    public String getCardHolderName() {
-        return cardHolderName;
-    }
-
-    public void setCardHolderName(String cardHolderName) {
-        this.cardHolderName = cardHolderName;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
+    public double getRewardRate() { return rewardRate; }
+    public void setRewardRate(double rewardRate) { this.rewardRate = rewardRate; }
 }
