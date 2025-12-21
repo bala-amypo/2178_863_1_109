@@ -14,7 +14,8 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     private final PurchaseIntentRecordRepository purchaseIntentRecordRepository;
 
     @Autowired
-    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository purchaseIntentRecordRepository) {
+    public PurchaseIntentServiceImpl(
+            PurchaseIntentRecordRepository purchaseIntentRecordRepository) {
         this.purchaseIntentRecordRepository = purchaseIntentRecordRepository;
     }
 
@@ -23,12 +24,12 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
         return purchaseIntentRecordRepository.save(record);
     }
 
+    // ✅ METHOD NAME MATCHES INTERFACE
     @Override
-    public List<PurchaseIntentRecord> getPurchaseIntentsByUserId(Long userId) {
+    public List<PurchaseIntentRecord> getIntentsByUser(Long userId) {
         return purchaseIntentRecordRepository.findByUserId(userId);
     }
 
-    // IMPLEMENT THE MISSING METHOD
     @Override
     public List<PurchaseIntentRecord> getAllIntents() {
         return purchaseIntentRecordRepository.findAll();
