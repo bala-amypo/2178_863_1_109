@@ -6,16 +6,20 @@ import com.example.demo.service.UserProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
 
-    // Only inject the repository, remove PasswordEncoder
     public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
+    }
+
+    @Override
+    public UserProfile getUserById(Long id) {
+        return userProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     @Override
@@ -24,13 +28,15 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public Optional<UserProfile> getUserById(Long id) {
-        return userProfileRepository.findById(id);
+    public void updateUserStatus(Long id, boolean active) {
+        UserProfile user = userProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        user.setActive(active);
+        userProfileRepository.save(user);
     }
 
     @Override
-    public UserProfile saveUser(UserProfile user) {
-        // No password encoding, just save directly
+    public UserProfile createUser(UserProfile user) {
         return userProfileRepository.save(user);
     }
 
