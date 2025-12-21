@@ -21,6 +21,11 @@ public class UserProfileController {
         return service.getUserById(id);
     }
 
+    @GetMapping("/email/{email}")
+    public UserProfile getUserByEmail(@PathVariable String email) {
+        return service.getUserByEmail(email);
+    }
+
     @GetMapping
     public List<UserProfile> getAllUsers() {
         return service.getAllUsers();
@@ -33,8 +38,7 @@ public class UserProfileController {
 
     @PutMapping("/{id}/status")
     public UserProfile updateUserStatus(@PathVariable Long id, @RequestParam boolean active) {
-        service.updateUserStatus(id, active); // update first
-        return service.getUserById(id);        // then return updated user
+        return service.updateUserStatus(id, active);
     }
 
     @DeleteMapping("/{id}")

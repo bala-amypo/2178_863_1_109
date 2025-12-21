@@ -10,38 +10,43 @@ import java.util.List;
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository userProfileRepository;
+    private final UserProfileRepository repository;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
-        this.userProfileRepository = userProfileRepository;
-    }
-
-    @Override
-    public UserProfile getUserById(Long id) {
-        return userProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    public UserProfileServiceImpl(UserProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<UserProfile> getAllUsers() {
-        return userProfileRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
-    public void updateUserStatus(Long id, boolean active) {
-        UserProfile user = userProfileRepository.findById(id)
+    public UserProfile getUserById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        user.setActive(active);
-        userProfileRepository.save(user);
+    }
+
+    @Override
+    public UserProfile getUserByEmail(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
     @Override
     public UserProfile createUser(UserProfile user) {
-        return userProfileRepository.save(user);
+        return repository.save(user);
+    }
+
+    @Override
+    public UserProfile updateUserStatus(Long id, boolean active) {
+        UserProfile user = getUserById(id);
+        user.setActive(active);
+        return repository.save(user); // return updated user
     }
 
     @Override
     public void deleteUser(Long id) {
-        userProfileRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }
