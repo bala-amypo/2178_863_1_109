@@ -1,60 +1,57 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserProfile;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.UserProfileRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserProfileService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository, PasswordEncoder passwordEncoder) {
-        this.userProfileRepository = userProfileRepository;
+    // Constructor injection for repository and password encoder
+    public UserProfileServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserProfile createUser(UserProfile profile) {
-        if (userProfileRepository.existsByUserId(profile.getUserId())) {
-            throw new BadRequestException("UserId already exists");
-        }
-        if (userProfileRepository.existsByEmail(profile.getEmail())) {
-            throw new BadRequestException("Email already exists");
-        }
-        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
-        profile.setActive(true);
-        return userProfileRepository.save(profile);
+    public UserProfile registerUser(UserProfile userProfile) {
+        // Encrypt the password before saving
+        String encodedPassword = passwordEncoder.encode(userProfile.getPassword());
+        userProfile.setPassword(encodedPassword);
+
+        return userRepository.save(userProfile);
     }
 
     @Override
-    public UserProfile getUserById(Long id) {
-        return userProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public UserProfile findByUserId(String userId) {
-        return userProfileRepository.findByUserId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public Optional<UserProfile> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
     public List<UserProfile> getAllUsers() {
-        return userProfileRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
-    public UserProfile updateUserStatus(Long id, boolean active) {
-        UserProfile profile = getUserById(id);
-        profile.setActive(active);
-        return userProfileRepository.save(profile);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserProfile updateUser(UserProfile userProfile) {
+        // Optionally encode password if it’s changed
+        if (userProfile.getPassword() != null) {
+            String encodedPassword = passwordEncoder.encode(userProfile.getPassword());
+            userProfile.setPassword(encodedPassword);
+        }
+        return userRepository.save(userProfile);
     }
 }
