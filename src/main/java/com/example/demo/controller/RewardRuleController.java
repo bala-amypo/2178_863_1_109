@@ -7,38 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reward-rules")
+@RequestMapping("/rules")
 public class RewardRuleController {
 
-    private final RewardRuleService service;
+    private final RewardRuleService rewardService;
 
-    public RewardRuleController(RewardRuleService service) {
-        this.service = service;
+    public RewardRuleController(RewardRuleService rewardService) {
+        this.rewardService = rewardService;
     }
 
     @PostMapping
-    public RewardRule create(@RequestBody RewardRule rule) {
-        return service.createRule(rule);
-    }
-
-    @PutMapping("/{id}")
-    public RewardRule update(@PathVariable Long id,
-                             @RequestBody RewardRule rule) {
-        return service.updateRule(id, rule);
-    }
-
-    @GetMapping("/card/{cardId}")
-    public List<RewardRule> getByCard(@PathVariable Long cardId) {
-        return service.getRulesByCard(cardId);
-    }
-
-    @GetMapping("/active")
-    public List<RewardRule> getActive() {
-        return service.getActiveRules();
+    public RewardRule createRule(@RequestBody RewardRule rule) {
+        return rewardService.createRule(rule);
     }
 
     @GetMapping
-    public List<RewardRule> getAll() {
-        return service.getAllRules();
+    public List<RewardRule> getAllRules() {
+        return rewardService.getAllRules();
     }
 }
