@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.CreditCard;
+import com.example.demo.entity.CreditCardRecord;
 import java.util.List;
 
 public interface RecommendationEngineService {
 
-    List<CreditCard> recommendCards(Long userId);
+    List<CreditCardRecord> recommendCards(Long userId);
 
 }
