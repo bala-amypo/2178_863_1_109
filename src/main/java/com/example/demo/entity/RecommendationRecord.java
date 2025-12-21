@@ -3,39 +3,42 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "recommendation_record")
 public class RecommendationRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long purchaseIntentId;
-    private Long recommendedCardId;
-    private double expectedRewardValue;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserProfile user;
 
-    @Column(length = 1000)
-    private String calculationDetailsJson;
+    @Column(nullable = false)
+    private String recommendation;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getPurchaseIntentId() { return purchaseIntentId; }
-    public void setPurchaseIntentId(Long purchaseIntentId) {
-        this.purchaseIntentId = purchaseIntentId;
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public Long getRecommendedCardId() { return recommendedCardId; }
-    public void setRecommendedCardId(Long recommendedCardId) {
-        this.recommendedCardId = recommendedCardId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public double getExpectedRewardValue() { return expectedRewardValue; }
-    public void setExpectedRewardValue(double expectedRewardValue) {
-        this.expectedRewardValue = expectedRewardValue;
+    public UserProfile getUser() {
+        return user;
     }
 
-    public String getCalculationDetailsJson() { return calculationDetailsJson; }
-    public void setCalculationDetailsJson(String calculationDetailsJson) {
-        this.calculationDetailsJson = calculationDetailsJson;
+    public void setUser(UserProfile user) {
+        this.user = user;
+    }
+
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
     }
 }
