@@ -1,9 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserProfile;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.service.UserProfileService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,46 +11,31 @@ import java.util.Optional;
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserProfileRepository userProfileRepository;
 
-    // Constructor injection for repository and password encoder
-    public UserProfileServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public UserProfile registerUser(UserProfile userProfile) {
-        // Encrypt the password before saving
-        String encodedPassword = passwordEncoder.encode(userProfile.getPassword());
-        userProfile.setPassword(encodedPassword);
-
-        return userRepository.save(userProfile);
-    }
-
-    @Override
-    public Optional<UserProfile> getUserById(Long id) {
-        return userRepository.findById(id);
+    // Only inject the repository, remove PasswordEncoder
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
     }
 
     @Override
     public List<UserProfile> getAllUsers() {
-        return userRepository.findAll();
+        return userProfileRepository.findAll();
+    }
+
+    @Override
+    public Optional<UserProfile> getUserById(Long id) {
+        return userProfileRepository.findById(id);
+    }
+
+    @Override
+    public UserProfile saveUser(UserProfile user) {
+        // No password encoding, just save directly
+        return userProfileRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
-    public UserProfile updateUser(UserProfile userProfile) {
-        // Optionally encode password if it’s changed
-        if (userProfile.getPassword() != null) {
-            String encodedPassword = passwordEncoder.encode(userProfile.getPassword());
-            userProfile.setPassword(encodedPassword);
-        }
-        return userRepository.save(userProfile);
+        userProfileRepository.deleteById(id);
     }
 }
