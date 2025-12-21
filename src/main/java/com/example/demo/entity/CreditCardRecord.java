@@ -3,20 +3,13 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "credit_cards")
 public class CreditCardRecord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String cardName;
-
-    @Column(nullable = false)
     private String category;
-
-    @Column(nullable = false)
     private double annualFee;
 
     // Getters and Setters

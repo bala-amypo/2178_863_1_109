@@ -3,26 +3,15 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recommendations")
 public class RecommendationRecord {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long userId;
-
-    @Column(nullable = false)
-    private Long purchaseIntentId;
-
-    @Column(nullable = false)
     private Long recommendedCardId;
-
-    @Column(nullable = false)
+    private Long purchaseIntentId;
     private double expectedRewardValue;
-
-    @Column(columnDefinition = "TEXT")
     private String calculationDetailsJson;
 
     // Getters and Setters
@@ -32,11 +21,11 @@ public class RecommendationRecord {
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
 
-    public Long getPurchaseIntentId() { return purchaseIntentId; }
-    public void setPurchaseIntentId(Long purchaseIntentId) { this.purchaseIntentId = purchaseIntentId; }
-
     public Long getRecommendedCardId() { return recommendedCardId; }
     public void setRecommendedCardId(Long recommendedCardId) { this.recommendedCardId = recommendedCardId; }
+
+    public Long getPurchaseIntentId() { return purchaseIntentId; }
+    public void setPurchaseIntentId(Long purchaseIntentId) { this.purchaseIntentId = purchaseIntentId; }
 
     public double getExpectedRewardValue() { return expectedRewardValue; }
     public void setExpectedRewardValue(double expectedRewardValue) { this.expectedRewardValue = expectedRewardValue; }
