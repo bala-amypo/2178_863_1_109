@@ -1,45 +1,28 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.CreditCardRecord;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.CreditCardRecordRepository;
+import com.example.demo.repository.CreditCardRepository;
 import com.example.demo.service.CreditCardService;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class CreditCardServiceImpl implements CreditCardService {
 
-    private final CreditCardRecordRepository repository;
+    private final CreditCardRepository repository;
 
-    public CreditCardServiceImpl(CreditCardRecordRepository repository) {
+    public CreditCardServiceImpl(CreditCardRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public CreditCardRecord addCard(CreditCardRecord card) {
-        if (card.getAnnualFee() < 0) {
-            throw new BadRequestException("Annual fee must be non-negative");
-        }
+    public CreditCardRecord createCard(CreditCardRecord card) {
         return repository.save(card);
     }
 
     @Override
-    public CreditCardRecord updateCard(Long id, CreditCardRecord updated) {
-        CreditCardRecord existing = getCardById(id);
-        updated.setId(existing.getId());
-        return repository.save(updated);
-    }
-
-    @Override
-    public List<CreditCardRecord> getCardsByUser(Long userId) {
-        return repository.findByUserId(userId);
-    }
-
-    @Override
     public CreditCardRecord getCardById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Card not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override
