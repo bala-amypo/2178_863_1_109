@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserProfile;
 import com.example.demo.service.UserProfileService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,33 +16,29 @@ public class UserProfileController {
         this.service = service;
     }
 
-    @PostMapping("/")
-    public ResponseEntity<UserProfile> createUser(@RequestBody UserProfile userProfile) {
-        UserProfile created = service.createUser(userProfile);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getUserById(@PathVariable Long id) {
-        UserProfile user = service.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public UserProfile getUser(@PathVariable Long id) {
+        return service.getUserById(id);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<UserProfile>> getAllUsers() {
-        List<UserProfile> users = service.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @GetMapping
+    public List<UserProfile> getAllUsers() {
+        return service.getAllUsers();
+    }
+
+    @PostMapping
+    public UserProfile createUser(@RequestBody UserProfile user) {
+        return service.createUser(user);
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<UserProfile> updateUserStatus(@PathVariable Long id, @RequestParam boolean active) {
-        UserProfile updated = service.updateUserStatus(id, active);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+    public UserProfile updateUserStatus(@PathVariable Long id, @RequestParam boolean active) {
+        service.updateUserStatus(id, active); // update first
+        return service.getUserById(id);        // then return updated user
     }
 
-    @GetMapping("/lookup/{userId}")
-    public ResponseEntity<UserProfile> findByUserId(@PathVariable String userId) {
-        UserProfile user = service.findByUserId(userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        service.deleteUser(id);
     }
 }
