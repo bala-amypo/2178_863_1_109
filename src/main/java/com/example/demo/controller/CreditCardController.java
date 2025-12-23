@@ -13,38 +13,39 @@ public class CreditCardController {
 
     private final CreditCardService creditCardService;
 
-    public CreditCardController(CreditCardService creditCardService) {
-        this.creditCardService = creditCardService;
-    }
+        public CreditCardController(CreditCardService creditCardService) {
+                this.creditCardService = creditCardService;
+                    }
 
-    @PostMapping
-    public ResponseEntity<CreditCardRecord> addCard(@RequestBody CreditCardRecord card) {
-        CreditCardRecord savedCard = creditCardService.addCard(card);
-        return ResponseEntity.ok(savedCard);
-    }
+                        @PostMapping
+                            public ResponseEntity<CreditCardRecord> addCard(@RequestBody CreditCardRecord card) {
+                                    CreditCardRecord savedCard = creditCardService.addCard(card);
+                                            return ResponseEntity.ok(savedCard);
+                                                }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CreditCardRecord> updateCard(@PathVariable Long id,
-                                                       @RequestBody CreditCardRecord updated) {
-        CreditCardRecord savedCard = creditCardService.updateCard(id, updated);
-        return ResponseEntity.ok(savedCard);
-    }
+                                                    @PutMapping("/{id}")
+                                                        public ResponseEntity<CreditCardRecord> updateCard(@PathVariable Long id,
+                                                                                                               @RequestBody CreditCardRecord updated) {
+                                                                                                                       CreditCardRecord savedCard = creditCardService.updateCard(id, updated);
+                                                                                                                               return ResponseEntity.ok(savedCard);
+                                                                                                                                   }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CreditCardRecord>> getCardsByUser(@PathVariable Long userId) {
-        List<CreditCardRecord> cards = creditCardService.getCardsByUser(userId);
-        return ResponseEntity.ok(cards);
-    }
+                                                                                                                                       @GetMapping("/user/{userId}")
+                                                                                                                                           public ResponseEntity<List<CreditCardRecord>> getCardsByUser(@PathVariable Long userId) {
+                                                                                                                                                   List<CreditCardRecord> cards = creditCardService.getCardsByUser(userId);
+                                                                                                                                                           return ResponseEntity.ok(cards);
+                                                                                                                                                               }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CreditCardRecord> getCardById(@PathVariable Long id) {
-        CreditCardRecord card = creditCardService.getCardById(id);
-        return ResponseEntity.ok(card);
-    }
+                                                                                                                                                                   @GetMapping("/{id}")
+                                                                                                                                                                       public ResponseEntity<CreditCardRecord> getCardById(@PathVariable Long id) {
+                                                                                                                                                                               CreditCardRecord card = creditCardService.getCardById(id);
+                                                                                                                                                                                       return ResponseEntity.ok(card);
+                                                                                                                                                                                           }
 
-    @GetMapping
-    public ResponseEntity<List<CreditCardRecord>> getAllCards() {
-        List<CreditCardRecord> cards = creditCardService.getAllCards();
-        return ResponseEntity.ok(cards);
-    }
-}
+                                                                                                                                                                                               @GetMapping
+                                                                                                                                                                                                   public ResponseEntity<List<CreditCardRecord>> getAllCards() {
+                                                                                                                                                                                                           List<CreditCardRecord> cards = creditCardService.getAllCards();
+                                                                                                                                                                                                                   return ResponseEntity.ok(cards);
+                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                       
