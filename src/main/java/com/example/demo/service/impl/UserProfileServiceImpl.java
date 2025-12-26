@@ -3,30 +3,41 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.UserProfile;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.service.UserProfileService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository repo;
-    private final PasswordEncoder encoder;
+    private final UserProfileRepository userProfileRepository;
 
-    public UserProfileServiceImpl(UserProfileRepository repo, PasswordEncoder encoder) {
-        this.repo = repo;
-        this.encoder = encoder;
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
     }
 
-    public UserProfile createUser(UserProfile u) {
-        u.setPassword(encoder.encode(u.getPassword()));
-        return repo.save(u);
+    @Override
+    public UserProfile save(UserProfile userProfile) {
+        return userProfileRepository.save(userProfile);
     }
 
-    public UserProfile getUserById(Long id) {
-        return repo.findById(id).orElse(null);
+    @Override
+    public List<UserProfile> getAll() {
+        return userProfileRepository.findAll();
     }
 
-    public List<UserProfile> getAllUsers() {
-        return repo.findAll();
+    @Override
+    public UserProfile getById(Long id) {
+        return userProfileRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserProfile getByEmail(String email) {
+        return userProfileRepository.findByEmail(email);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userProfileRepository.deleteById(id);
     }
 }
