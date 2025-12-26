@@ -1,18 +1,17 @@
 package com.example.demo.service;
 
+import com.example.demo.model.UserProfile;
 import java.util.List;
-
-import com.example.demo.entity.UserProfile;
 
 public interface UserProfileService {
 
-    UserProfile save(UserProfile userProfile);
+    UserProfile createUserProfile(UserProfile userProfile);
 
-    List<UserProfile> getAll();
+    UserProfile getUserProfileById(Long id);
 
-    UserProfile getById(Long id);
+    List<UserProfile> getAllUserProfiles();
 
-    UserProfile getByEmail(String email);
+    UserProfile updateUserProfile(Long id, UserProfile userProfile);
 
-    void delete(Long id);
+    void deleteUserProfile(Long id);
 }
