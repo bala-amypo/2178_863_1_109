@@ -1,49 +1,43 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.UserProfile;
+import com.example.demo.entity.UserProfile;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserProfileRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.UserProfileService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service; 
 
 import java.util.List;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository userProfileRepository;
+    private final UserProfileRepository repo;
+    private final PasswordEncoder encoder;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
-        this.userProfileRepository = userProfileRepository;
+    public UserProfileServiceImpl(UserProfileRepository repo, PasswordEncoder encoder){
+        this.repo = repo;
+        this.encoder = encoder;
     }
 
     @Override
-    public UserProfile createUserProfile(UserProfile userProfile) {
-        return userProfileRepository.save(userProfile);
+    public UserProfile createUser(UserProfile p){
+        if(repo.existsByEmail(p.getEmail())) throw new BadRequestException("Email exists");
+        if(repo.existsByUserId(p.getUserId())) throw new BadRequestException("UserID exists");
+
+        p.setPassword( encoder.encode(p.getPassword()) );
+        return repo.save(p);
     }
 
     @Override
-    public UserProfile getUserProfileById(Long id) {
-        return userProfileRepository.findById(id).orElse(null);
+    public UserProfile getUserById(Long id){
+        return repo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("User not found"));
     }
 
     @Override
-    public List<UserProfile> getAllUserProfiles() {
-        return userProfileRepository.findAll();
-    }
-
-    @Override
-    public UserProfile updateUserProfile(Long id, UserProfile userProfile) {
-        UserProfile existing = userProfileRepository.findById(id).orElse(null);
-        if (existing == null) {
-            return null;
-        }
-        existing.setName(userProfile.getName());
-        existing.setEmail(userProfile.getEmail());
-        existing.setAge(userProfile.getAge());
-        return userProfileRepository.save(existing);
-    }
-
-    @Override
-    public void deleteUserProfile(Long id) {
-        userProfileRepository.deleteById(id);
+    public List<UserProfile> getAllUsers(){
+        return repo.findAll();
     }
 }
