@@ -10,34 +10,34 @@ import java.util.List;
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository userProfileRepository;
+    private final UserProfileRepository repository;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
-        this.userProfileRepository = userProfileRepository;
+    public UserProfileServiceImpl(UserProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public UserProfile save(UserProfile userProfile) {
-        return userProfileRepository.save(userProfile);
+        return repository.save(userProfile);
     }
 
     @Override
     public List<UserProfile> getAll() {
-        return userProfileRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public UserProfile getById(Long id) {
-        return userProfileRepository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public UserProfile getByEmail(String email) {
-        return userProfileRepository.findByEmail(email);
+        return repository.findByEmail(email);
     }
 
     @Override
     public void delete(Long id) {
-        userProfileRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }
