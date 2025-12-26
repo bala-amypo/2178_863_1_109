@@ -13,24 +13,25 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserProfileService userService;
-    private final PasswordEncoder encoder;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     public AuthServiceImpl(UserProfileService userService,
-                           PasswordEncoder encoder,
+                           PasswordEncoder passwordEncoder,
                            JwtUtil jwtUtil) {
         this.userService = userService;
-        this.encoder = encoder;
+        this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
     @Override
     public void register(RegisterRequest request) {
-        UserProfile user = new UserProfile(
-                request.getEmail(),
-                encoder.encode(request.getPassword()),
-                "USER"
-        );
+        UserProfile user = new UserProfile();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole("USER");
+        user.setActive(true);
+
         userService.save(user);
     }
 
@@ -38,7 +39,9 @@ public class AuthServiceImpl implements AuthService {
     public String login(LoginRequest request) {
         UserProfile user = userService.getByEmail(request.getEmail());
 
-        if (!encoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
