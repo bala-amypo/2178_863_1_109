@@ -16,18 +16,18 @@ public class UserProfile {
 
     private String firstName;
     private String lastName;
+    private String email;
     private String phone;
-    private String address;
 
-    // Constructors
-    public UserProfile() {
-    }
+    // Default constructor
+    public UserProfile() {}
 
-    public UserProfile(String firstName, String lastName, String phone, String address) {
+    // Parameterized constructor
+    public UserProfile(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.phone = phone;
-        this.address = address;
     }
 
     // Getters and Setters
@@ -55,19 +55,19 @@ public class UserProfile {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }
